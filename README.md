@@ -12,4 +12,8 @@ Please refer to the CustomTabBarController.swift file which will show you the di
 Currently, the only exchange working and setup for most pull features is KuCoin but the rest of the exchanges you can still view.
 
 ### Installation
-I have included the Cartfiles in the commits to the repository
+I have included the Cartfiles in the commits to the repository. Once you have pulled all of the files, cd to the directory where you have the project and run:
+
+`carthage update --platform ios`
+
+And then everything should run.
