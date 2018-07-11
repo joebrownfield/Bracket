@@ -17,3 +17,7 @@ I have included the Cartfiles in the commits to the repository. Once you have pu
 `carthage update --platform ios`
 
 And then everything should run.
+
+### Thumbnails
+![thumbnails](https://user-images.githubusercontent.com/41099507/42571639-bb6cd79c-84e5-11e8-8baa-a171f2c7888c.png)
+
