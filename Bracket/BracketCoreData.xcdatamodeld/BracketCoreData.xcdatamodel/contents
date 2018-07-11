@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17F77" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ExchgKeys" representedClassName="ExchgKeys" syncable="YES" codeGenerationType="class">
+        <attribute name="apiKey" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="exchange" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="secret" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Wallets" representedClassName="Wallets" syncable="YES" codeGenerationType="class">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="ExchgKeys" positionX="-63" positionY="-18" width="128" height="90"/>
+        <element name="Wallets" positionX="-54" positionY="18" width="128" height="60"/>
+    </elements>
+</model>
