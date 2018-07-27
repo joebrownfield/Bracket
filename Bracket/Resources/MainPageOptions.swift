@@ -25,12 +25,6 @@ class MainPageOptions {
             return (setColor(hValue: "#F7F8F9"), setColor(hValue: "#5F6FEE"), setColor(hValue: "#B3BAC8"), setColor(hValue: "#1A1A1A"))
         }
     }()
-    //let tabBarTintColor = setColor(hValue: "#F7F8F9")
-    //let tabBarColor = setColor(hValue: "#5F6FEE")
-    //let tabBarUnselected = setColor(hValue: "#B3BAC8")
-    
-    //Nav Bar Colors
-    //let navigationTitleColor = setColor(hValue: "#1A1A1A")
     
     //Other Colors
     let (backgroundColor, labelColor, separatorColor) = { () -> (UIColor, UIColor, UIColor) in
@@ -40,9 +34,6 @@ class MainPageOptions {
             return (setColor(hValue: "#FFFFFF"), setColor(hValue: "#4B617F"), setColor(hValue: "#EBECEF"))
         }
     }()
-    //let backgroundColor = setColor(hValue: "#FFFFFF")
-    //let labelColor = setColor(hValue: "#4B617F")
-    //let separatorColor = setColor(hValue: "#EBECEF")
     
     //Price Colors
     let (darkGreen, darkRed) = { () -> (UIColor, UIColor) in
@@ -52,8 +43,6 @@ class MainPageOptions {
             return (setColor(hValue: "#00CCAA"), setColor(hValue: "#FF328B"))
         }
     }()
-    //let darkGreen = setColor(hValue: "#00CCAA")
-    //let darkRed = setColor(hValue: "#FF328B")
     
 }
 
@@ -92,6 +81,7 @@ struct ExchangeBalance {
     let freezeBalanceStr: String
     var change: String
     var price: String
+    var address: String
 }
 
 class ExchangeBalances {
@@ -115,5 +105,6 @@ enum Exchanges: String {
     case idex = "IDEX"
     case bittrex = "Bittrex"
     case kucoin = "KuCoin"
+    case wallet = "Wallet"
     case none = "None"
 }

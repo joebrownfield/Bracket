@@ -19,14 +19,14 @@ class WalletInfoTableController: UITableViewController, WalletTableCellDelegate 
         return image
     }()
     
-    let plusView = GenericUnderline(color: MainPageOptions().backgroundColor, alpha: 1)
+    let plusView = GenericView(color: MainPageOptions().backgroundColor, alpha: 1)
     
     let cellId = "mainCellId"
     let headerCellId = "walletHeaderCellId"
     let walletCellId = "walletCellId"
     let mainPageOptions = MainPageOptions()
     var exchangeOptions: [APIKeyValues] = TickerInformation.sharedInstance.exchangeOptions
-    var wallets: [Wallets] = TickerInformation.sharedInstance.wallets
+    var wallets: [Wallets] = [Wallets]()
     var additionalWallets: Int = 1
     
     let headerSectionHeight: Int = 140
@@ -133,7 +133,10 @@ class WalletInfoTableController: UITableViewController, WalletTableCellDelegate 
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: walletCellId, for: indexPath) as! AddWalletCell
-            
+            if !wallets.isEmpty, wallets.count > indexPath.row, let address = wallets[indexPath.row] as Wallets? {
+                cell.apiKeyTextField.text = address.address
+            }
+            cell.delegate = self
             cell.backgroundColor = mainPageOptions.backgroundColor
             
             return cell
@@ -153,9 +156,15 @@ class WalletInfoTableController: UITableViewController, WalletTableCellDelegate 
         case 0:
             return CGFloat(headerSectionHeight)
         case 1:
-            return 10 + 20 + 10 + 30 + 10
+            return 80
         default:
-            return 10 + 20 + 10 + 30 + 10 + 30 + 10
+            return 120
+        }
+    }
+    
+    func reloadPortfolio() {
+        updateAllBalances(activeVC: self) {
+            
         }
     }
     

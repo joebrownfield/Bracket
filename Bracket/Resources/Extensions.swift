@@ -26,6 +26,52 @@ extension UIView {
         layer.shadowOffset = CGSize(width: 0, height: 1)
         layer.shadowRadius = 2
     }
+    
+    func addActivityIndicator(_ title: String) {
+        
+        let strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 160, height: 46))
+        strLabel.text = title
+        strLabel.font = .systemFont(ofSize: 14, weight: .medium)
+        strLabel.textColor = UIColor(white: 0.9, alpha: 0.7)
+        strLabel.tag = 5
+        
+        let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+        let screenHeight = UIScreen.main.bounds.height
+        effectView.frame = CGRect(x: self.frame.midX - strLabel.frame.width/2, y: screenHeight / 2 - 160, width: 160, height: 46)
+        effectView.layer.cornerRadius = 15
+        effectView.layer.masksToBounds = true
+        effectView.tag = 5
+        
+        var activityIndicator = UIActivityIndicatorView()
+        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
+        activityIndicator.tag = 5
+        activityIndicator.startAnimating()
+        
+        effectView.contentView.addSubview(activityIndicator)
+        effectView.contentView.addSubview(strLabel)
+        self.addSubview(effectView)
+        
+        self.isUserInteractionEnabled = false
+        
+    }
+    
+    func removeActivityIndicator() {
+        DispatchQueue.main.async {
+            for view in self.subviews {
+                if view.tag == 5 {
+                    UIView.animate(withDuration: 0.5) {
+                        view.removeFromSuperview()
+                        self.layoutIfNeeded()
+                    }
+                }
+            }
+        }
+        
+        self.isUserInteractionEnabled = true
+        
+    }
+    
 }
 
 extension String {
@@ -106,6 +152,24 @@ extension String {
             return ""
         }
     }
+    
+    func convertEth(decimals: Int) -> Double {
+        //***************** Since we are just displaying a rounded balance and not sending transactions ATM
+        //***************** no integer manipulation is being done and we are just getting a rounded value
+        // But once Web3 is involved there will be a lot of steps done to handle the integer counts of different currencies
+        guard self.count >= decimals - 7 else { return 0 }
+        let roundNumber: Int = {
+            if self.count > decimals + 4 {
+                return decimals - 3
+            } else {
+                return decimals - 8
+            }
+        }()
+        let newString = self[startIndex..<index(startIndex, offsetBy: self.count - roundNumber)]
+        print(newString)
+        guard let doubleValue = Double(newString) else { return 0 }
+        return doubleValue / pow(10, Double(18 - roundNumber))
+    }
 }
 
 extension Double {
@@ -133,6 +197,14 @@ extension UIViewController {
         return tap
     }
     
+}
+
+extension UITextView {
+    convenience init(font: UIFont, textColor: UIColor) {
+        self.init()
+        self.font = font
+        self.textColor = textColor
+    }
 }
 
 func getCoinbaseBasePrices(basePair: String, completion: @escaping () -> Void ) {
@@ -179,51 +251,4 @@ func setColor(hValue: String) -> UIColor {
     var rgb: UInt32 = 0
     Scanner(string: color).scanHexInt32(&rgb)
     return UIColor(red: CGFloat((rgb & 0xFF0000) >> 16) / 255, green: CGFloat((rgb & 0x00FF00) >> 8) / 255, blue: CGFloat((rgb & 0x0000FF)) / 255, alpha: 1)
-}
-
-extension UIView {
-    func addActivityIndicator(_ title: String) {
-        
-        let strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 160, height: 46))
-        strLabel.text = title
-        strLabel.font = .systemFont(ofSize: 14, weight: .medium)
-        strLabel.textColor = UIColor(white: 0.9, alpha: 0.7)
-        strLabel.tag = 5
-        
-        let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-        let screenHeight = UIScreen.main.bounds.height
-        effectView.frame = CGRect(x: self.frame.midX - strLabel.frame.width/2, y: screenHeight / 2 - 160, width: 160, height: 46)
-        effectView.layer.cornerRadius = 15
-        effectView.layer.masksToBounds = true
-        effectView.tag = 5
-        
-        var activityIndicator = UIActivityIndicatorView()
-        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
-        activityIndicator.tag = 5
-        activityIndicator.startAnimating()
-        
-        effectView.contentView.addSubview(activityIndicator)
-        effectView.contentView.addSubview(strLabel)
-        self.addSubview(effectView)
-        
-        self.isUserInteractionEnabled = false
-        
-    }
-    
-    func removeActivityIndicator() {
-        DispatchQueue.main.async {
-            for view in self.subviews {
-                if view.tag == 5 {
-                    UIView.animate(withDuration: 0.5) {
-                        view.removeFromSuperview()
-                        self.layoutIfNeeded()
-                    }
-                }
-            }
-        }
-        
-        self.isUserInteractionEnabled = true
-        
-    }
 }

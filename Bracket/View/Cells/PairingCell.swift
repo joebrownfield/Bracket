@@ -12,7 +12,7 @@ class PairingCell: BaseCell {
     
     let pairingLabel = GenericLabel("Label", .center, fontLight(15), MainPageOptions().labelColor)
     
-    let underlineView = GenericUnderline(color: MainPageOptions().tabBarColor, alpha: 1)
+    let underlineView = GenericView(color: MainPageOptions().tabBarColor, alpha: 1)
     
     let mainPageOptions = MainPageOptions()
     

@@ -30,9 +30,9 @@ class PortfolioController: UICollectionViewController, UICollectionViewDelegateF
         return button
     }()
     
-    let coinBalance = GenericLabel("55.98712 ETH", .center, fontBold(25), MainPageOptions().labelColor)
+    let coinBalance = GenericLabel("", .center, fontBold(25), MainPageOptions().labelColor)
     
-    let coinValue = GenericLabel("~ $97,781 USD", .center, fontRegular(17), MainPageOptions().labelColor)
+    let coinValue = GenericLabel("", .center, fontRegular(17), MainPageOptions().labelColor)
     
     let plusIcon: UIButton = {
         let image = UIButton()
@@ -42,9 +42,9 @@ class PortfolioController: UICollectionViewController, UICollectionViewDelegateF
         return image
     }()
     
-    let headerBackground = GenericUnderline(color: MainPageOptions().backgroundColor, alpha: 1)
+    let headerBackground = GenericView(color: MainPageOptions().backgroundColor, alpha: 1)
     
-    let separatorBottom = GenericUnderline(color: MainPageOptions().labelColor, alpha: 0.5)
+    let separatorBottom = GenericView(color: MainPageOptions().labelColor, alpha: 0.5)
     
     var exchangeOptions: [APIKeyValues] = TickerInformation.sharedInstance.exchangeOptions
     var wallets: [Wallets] = TickerInformation.sharedInstance.wallets
@@ -83,12 +83,15 @@ class PortfolioController: UICollectionViewController, UICollectionViewDelegateF
     private func addPullToRefresh() {
         let refreshControl = UIRefreshControl()
         let title = NSLocalizedString("Refreshing data..", comment: "Pull to refresh")
-        refreshControl.attributedTitle = NSAttributedString(string: title)
+        let attributes: [NSAttributedStringKey : UIColor]?
         if (BeastMode().nightMode) {
             refreshControl.tintColor = .white
+            attributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         } else {
             refreshControl.tintColor = .black
+            attributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
         }
+        refreshControl.attributedTitle = NSAttributedString(string: title, attributes: attributes)
         refreshControl.bounds.origin.y = CGFloat(headerHeight * -1)
         refreshControl.addTarget(self, action: #selector(refreshCVData(sender:)), for: .valueChanged)
         collectionView?.refreshControl = refreshControl

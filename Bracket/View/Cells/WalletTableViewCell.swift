@@ -18,6 +18,7 @@ struct APIKeyValues {
 protocol WalletTableCellDelegate {
     func displayAlert(title: String, message: String)
     func localUpdateApiArray(apiKey: APIKeyValues)
+    func reloadPortfolio()
 }
 
 class WalletTableViewCell: UITableViewCell {
@@ -78,7 +79,7 @@ class WalletTableViewCell: UITableViewCell {
         keyFetch.predicate = NSPredicate(format: "exchange = %@", exchg.rawValue)
         do {
             let keys = try managedContext.fetch(keyFetch)
-            if keys.count < 1 {
+            if keys.isEmpty {
                 return false
             }
             for key in keys {
@@ -159,20 +160,8 @@ class WalletTableViewCell: UITableViewCell {
 }
 
 class WalletHeaderCell: WalletTableViewCell {
-    let headerLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Important Information:"
-        label.font = fontBold(20)
-        label.textAlignment = .left
-        label.textColor = MainPageOptions().labelColor
-        return label
-    }()
-    let headerSection: UITextView = {
-        let textView = UITextView()
-        textView.font = fontRegular(12)
-        textView.textColor = MainPageOptions().labelColor
-        return textView
-    }()
+    let headerLabel = GenericLabel("Important Information:", .left, fontBold(20), MainPageOptions().labelColor)
+    let headerSection = UITextView(font: fontRegular(12), textColor: MainPageOptions().labelColor)
     
     override func setupViews() {
         addSubview(headerLabel)
@@ -184,7 +173,13 @@ class WalletHeaderCell: WalletTableViewCell {
 }
 
 class AddWalletCell: WalletTableViewCell {
+    
+    let ethplorer = Ethplorer()
+    
     override func setupViews() {
+        
+        apiKeyTextField.isSecureTextEntry = false
+        
         addSubview(exchgLabel)
         addSubview(apiKeyTextField)
         addSubview(saveButton)
@@ -206,5 +201,72 @@ class AddWalletCell: WalletTableViewCell {
         setupViewConstraints(format: "H:[v0(50)]-12-|", views: saveButton)
         setupViewConstraints(format: "V:[v0]-10-[v1(30)]", views: exchgLabel, saveButton)
         
+        saveButton.addTarget(self, action: #selector(saveWalletPressed), for: .touchUpInside)
+        
     }
+    
+    @objc func saveWalletPressed(_ sender: UIButton) {
+        guard apiKeyTextField.text != "", let walletAddress = apiKeyTextField.text else {
+            delegate?.displayAlert(title: "Incorrect Information", message: WalletSaveErrors.empty.rawValue)
+            return
+        }
+        
+        ethplorer.getEthWalletBalance(address: walletAddress) { (results, error) in
+            DispatchQueue.main.async {
+                guard let results = results, !(results.error) else {
+                    self.delegate?.displayAlert(title: "Incorrect Wallet Address", message: WalletSaveErrors.incorrect.rawValue)
+                    return
+                }
+                let (success, message) = self.saveWalletInfo(address: walletAddress)
+                let title: String = success ? "Success" : "Error"
+                if title == "Success" {
+                    DispatchQueue.main.async {
+                        self.delegate?.reloadPortfolio()
+                    }
+                }
+                self.delegate?.displayAlert(title: title, message: message.rawValue)
+            }
+            
+        }
+        
+    }
+    
+    func saveWalletInfo(address: String) -> (Bool, WalletSaveErrors) {
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return (false, .genericError) }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let keyFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Wallets")
+        keyFetch.predicate = NSPredicate(format: "address = %@", address)
+        do {
+            let keys = try managedContext.fetch(keyFetch)
+            if keys.isEmpty {
+                let entity = NSEntityDescription.entity(forEntityName: "Wallets", in: managedContext)
+                let keyValue = NSManagedObject(entity: entity!, insertInto: managedContext)
+                keyValue.setValue(address, forKey: "address")
+                do {
+                    try managedContext.save()
+                    return (true, .success)
+                } catch let error as NSError {
+                    print(error)
+                    return (false, .genericError)
+                }
+            } else {
+                return (false, .duplicate)
+            }
+        } catch let error as NSError {
+            print(error)
+            return (false, .genericError)
+        }
+    }
+    
+    enum WalletSaveErrors: String {
+        case success = "This wallet address has successfully been saved."
+        case genericError = "Error saving wallet."
+        case duplicate = "You have already saved this wallet address."
+        case empty = "Please enter a value for the wallet address."
+        case incorrect = "Please check your wallet address as it is incorrect."
+    }
+    
 }
