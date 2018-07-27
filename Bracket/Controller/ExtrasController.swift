@@ -13,7 +13,7 @@ class ExtrasController: UIViewController {
     
     let cellId = "cellId"
     
-    let informationLabel = GenericLabel("Features Disabled", .center, fontRegular(30), MainPageOptions().labelColor)
+    let informationLabel = GenericLabel("Features Disabled", .center, UIFont.systemFont(ofSize: 20), MainPageOptions().labelColor)
     
     override func viewDidLoad() {
         super.viewDidLoad()

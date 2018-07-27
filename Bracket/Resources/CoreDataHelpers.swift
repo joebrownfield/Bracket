@@ -162,58 +162,125 @@ func getAllOpenOrders() {
     }
 }
 
-func updateAllBalances(activeVC: UIViewController, completion: @escaping () -> Void ) {
-    let kuCoin = KuCoin(apiKey: AllKeys.kuCoinShared.apiKey, secret: AllKeys.kuCoinShared.secret)
+func setEbValue(eb: ExchangeBalance) {
+    if let index = ExchangeBalances.sharedInstance.exchangeBalances.index(where: { $0.exchange == Exchanges.wallet && $0.coinType == eb.coinType && $0.address == eb.address }) {
+        ExchangeBalances.sharedInstance.exchangeBalances[index] = eb
+    } else {
+        ExchangeBalances.sharedInstance.exchangeBalances.append(eb)
+    }
+}
+
+func getAllWalletInfo() {
     
-    let eb = ExchangeBalances.sharedInstance
+    let ethplorer = Ethplorer()
+    var wallets = [Wallets]()
+    getStoredWallets(&wallets)
+    TickerInformation.sharedInstance.wallets = wallets
+    
+    for wallet in wallets {
+        guard let address = wallet.address else { continue }
+        ethplorer.getEthWalletBalance(address: address) { (results, error) in
+            guard let results = results, let tokens = results.tokens, let eth = results.eth as EthplorerEth? else { return }
+            if eth.balance > 0.01 {
+                let balanceString = eth.balance.toString().numberToStringFormat(7)
+                let eb = ExchangeBalance(exchange: .wallet, balance: eth.balance, balanceStr: balanceString, coinType: "ETH", freezeBalance: 0, freezeBalanceStr: "", change: "", price: "1.0000000", address: address)
+                setEbValue(eb: eb)
+            }
+            for token in tokens {
+                guard (token.tokenInfo.priceSwitch), let decimals = token.tokenInfo.decimals as String?, decimals != "0", decimals != "" else { continue }
+                // I know this is not the best way to do this, and I will use other libraries or convert the numbers to integer values that can be handled
+                // but for now for testing I am just doing pow(10, decimals)
+                let balance = token.balance / pow(10, decimals.toDouble())
+                guard balance > 1 else { continue }
+                let balanceString = balance.toString().numberToStringFormat(7)
+                let price: String
+                if let basePrice = TickerInformation.sharedInstance.currencyPrices.first(where: { $0.base == "ETH" }), token.tokenInfo.price?.currency == "USD" {
+                    let priceValue = (token.tokenInfo.price?.rate.toDouble())! / basePrice.amount.toDouble()
+                    price = "\(priceValue)"
+                } else {
+                    price = ""
+                }
+                let eb = ExchangeBalance(exchange: .wallet, balance: balance, balanceStr: balanceString, coinType: token.tokenInfo.symbol, freezeBalance: 0, freezeBalanceStr: "", change: "", price: price.numberToStringFormat(7), address: address)
+                setEbValue(eb: eb)
+            }
+        }
+    }
+}
+
+func updateAllBalances(activeVC: UIViewController, completion: @escaping () -> Void ) {
     
     getAllOpenOrders()
     
-    for exchg in MainPageOptions().options {
-        switch exchg {
-        case .idex:
-            guard AllKeys.idexShared.apiKey != "" else {
-                completion()
-                break
-            }
-            break
-        case .bittrex:
-            guard AllKeys.bittrexShared.apiKey != "" else {
-                completion()
-                break
-            }
-            break
-        case .kucoin:
-            guard AllKeys.kuCoinShared.apiKey != "" else {
-                completion()
-                break
-            }
-            kuCoin.getBalance { (results, error) in
-                DispatchQueue.main.async {
-                    guard let data = results?.data else {
-                        displayBalanceLoadAlert(activeVC, exchg)
-                        completion()
-                        return
-                    }
-                    let balance = data.filter { $0.balance > 15 || $0.freezeBalance > 15 || ["ETH","BTC"].contains($0.coinType) }
-                    eb.exchangeBalances = eb.exchangeBalances.filter { $0.exchange.rawValue != kuCoin.exchg.rawValue }
-                    for bal in balance {
-                        let price: String
-                        if bal.coinType == "ETH" {
-                            price = "1.0000000"
-                        } else {
-                            price = ""
-                        }
-                        eb.exchangeBalances.append(ExchangeBalance(exchange: kuCoin.exchg, balance: bal.balance, balanceStr: bal.balanceStr, coinType: bal.coinType, freezeBalance: bal.freezeBalance, freezeBalanceStr: bal.freezeBalanceStr, change: "", price: price))
-                    }
-                    completion()
+    getAllWalletInfo()
+    
+    let mainPageOptions = MainPageOptions().options
+    
+    var overallCompletion: Int = 0
+    
+    for exchg in mainPageOptions {
+        getExchgBalance(activeVC: activeVC, exchg: exchg) { (success) in
+            overallCompletion += 1
+            if (success) {
+                let eb = ExchangeBalances.sharedInstance.exchangeBalances.filter { $0.exchange == exchg }
+                if let exchangeBalance = eb.first {
+                    updateChangePercent(exchangeBalance)
                 }
             }
-        default:
-            break
+            if overallCompletion == mainPageOptions.count {
+                completion()
+            }
         }
     }
     
+}
+
+func getExchgBalance(activeVC: UIViewController, exchg: Exchanges, completion: @escaping (Bool) -> Void) {
+    let kuCoin = KuCoin(apiKey: AllKeys.kuCoinShared.apiKey, secret: AllKeys.kuCoinShared.secret)
+    let eb = ExchangeBalances.sharedInstance
+    
+    switch exchg {
+    case .idex:
+        guard AllKeys.idexShared.apiKey != "" else {
+            completion(false)
+            break
+        }
+        break
+    case .bittrex:
+        guard AllKeys.bittrexShared.apiKey != "" else {
+            completion(false)
+            break
+        }
+        break
+    case .kucoin:
+        guard AllKeys.kuCoinShared.apiKey != "" else {
+            completion(false)
+            break
+        }
+        kuCoin.getBalance { (results, error) in
+            DispatchQueue.main.async {
+                guard let data = results?.data else {
+                    displayBalanceLoadAlert(activeVC, exchg)
+                    completion(false)
+                    return
+                }
+                let balance = data.filter { $0.balance > 15 || $0.freezeBalance > 15 || ["ETH","BTC"].contains($0.coinType) }
+                eb.exchangeBalances = eb.exchangeBalances.filter { $0.exchange.rawValue != kuCoin.exchg.rawValue }
+                for bal in balance {
+                    let price: String
+                    if bal.coinType == "ETH" {
+                        price = "1.0000000"
+                    } else {
+                        price = ""
+                    }
+                    eb.exchangeBalances.append(ExchangeBalance(exchange: kuCoin.exchg, balance: bal.balance, balanceStr: bal.balanceStr, coinType: bal.coinType, freezeBalance: bal.freezeBalance, freezeBalanceStr: bal.freezeBalanceStr, change: "", price: price, address: ""))
+                }
+                completion(true)
+            }
+        }
+    default:
+        completion(false)
+        break
+    }
 }
 
 func displayBalanceLoadAlert(_ activeVC: UIViewController, _ exchg: Exchanges) {
@@ -237,9 +304,7 @@ func preloadAllData(activeVC: UIViewController) {
                     getAllOrderHistory()
                 }
                 updateAllBalances(activeVC: activeVC, completion: {
-                    updateChangePercent(ExchangeBalances.sharedInstance.exchangeBalances, completion: {
-                        activeVC.view.removeActivityIndicator()
-                    })
+                    activeVC.view.removeActivityIndicator()
                 })
                 
             }
@@ -300,14 +365,9 @@ func updatePrecisionArray(exchg: Exchanges) {
     }
 }
 
-func updateChangePercent(_ coinBalances: [ExchangeBalance], completion: @escaping () -> Void) {
-    guard coinBalances.count > 0 else {
-        completion()
-        return
-    }
-    for i in 0...coinBalances.count - 1 {
-        let coinBalance = coinBalances[i]
-        guard !(["ETH"].contains(coinBalance.coinType)) else { continue }
+func updateChangePercent(_ coinBalance: ExchangeBalance) {
+    
+        guard !(["ETH"].contains(coinBalance.coinType)) else { return }
         switch coinBalance.exchange {
         case .kucoin:
             let kuCoin = KuCoin(apiKey: AllKeys.kuCoinShared.apiKey, secret: AllKeys.kuCoinShared.secret)
@@ -320,20 +380,19 @@ func updateChangePercent(_ coinBalances: [ExchangeBalance], completion: @escapin
             kuCoin.getCoinPairing(symbol: symbol) { (results, error) in
                 guard let results = results, let coinInfo = results.data as PairInfo? else { return }
                 DispatchQueue.main.async {
-                    var updatedValue = ExchangeBalances.sharedInstance.exchangeBalances[i]
-                    updatedValue.change = coinInfo.changeRate
-                    let lastDealPrice = "\(coinInfo.lastDealPrice)"
-                    updatedValue.price = lastDealPrice.numberToStringFormat(7)
-                    ExchangeBalances.sharedInstance.exchangeBalances[i] = updatedValue
-                    
+                    if let index = ExchangeBalances.sharedInstance.exchangeBalances.index(where: { $0.exchange == coinBalance.exchange && $0.coinType == coinBalance.coinType }) {
+                        var updatedValue = ExchangeBalances.sharedInstance.exchangeBalances[index]
+                        updatedValue.change = coinInfo.changeRate
+                        let lastDealPrice = "\(coinInfo.lastDealPrice)"
+                        updatedValue.price = lastDealPrice.numberToStringFormat(7)
+                        ExchangeBalances.sharedInstance.exchangeBalances[index] = updatedValue
+                    }
                 }
                 
             }
         default:
             break
         }
-    }
-    completion()
 }
 
 func globalUpdateBal(exchg: Exchanges, coinType: String, amount: Double) {

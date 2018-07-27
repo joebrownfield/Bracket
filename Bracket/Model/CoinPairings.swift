@@ -230,6 +230,144 @@ public struct IDEXOrder: Codable {
     }
 }
 
+public struct EthplorerBalance: Codable {
+    let address: String
+    let eth: EthplorerEth
+    let tokens: [EthplorerTokens]?
+    let error: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case address
+        case eth = "ETH"
+        case tokens
+        case error
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let address = try container.decodeIfPresent(String.self, forKey: .address) ?? ""
+        self.address = address
+        let eth = try container.decodeIfPresent(EthplorerEth.self, forKey: .eth) ?? EthplorerEth(balance: 0.0)
+        self.eth = eth
+        let tokens = try container.decodeIfPresent([EthplorerTokens].self, forKey: .tokens) ?? nil
+        self.tokens = tokens
+        let error = try container.decodeIfPresent(EthplorerError.self, forKey: .error) ?? EthplorerError(code: 100, message: "")
+        if error.code == 100 {
+            self.error = false
+        } else {
+            self.error = true
+        }
+    }
+}
+
+public struct EthplorerTokens: Codable {
+    let tokenInfo: TokenInfo
+    let balance: Double
+    let totalIn: Double
+    let totalOut: Double
+    
+    enum CodingKeys: String, CodingKey {
+        case tokenInfo = "tokenInfo"
+        case balance
+        case totalIn = "totalIn"
+        case totalOut = "totalOut"
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let tokenInfo = try container.decodeIfPresent(TokenInfo.self, forKey: .tokenInfo)
+        self.tokenInfo = tokenInfo!
+        let balance = try container.decodeIfPresent(Double.self, forKey: .balance) ?? 0.0
+        self.balance = balance
+        let totalIn = try container.decodeIfPresent(Double.self, forKey: .totalIn) ?? 0.0
+        self.totalIn = totalIn
+        let totalOut = try container.decodeIfPresent(Double.self, forKey: .totalOut) ?? 0.0
+        self.totalOut = totalOut
+    }
+}
+
+public struct TokenInfo: Codable {
+    let address: String
+    let name: String
+    let decimals: String
+    let symbol: String
+    let priceSwitch: Bool
+    let price: PriceInfo?
+    
+    enum CodingKeys: String, CodingKey {
+        case address
+        case name
+        case decimals
+        case symbol
+        case priceSwitch = "price"
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let address = try container.decodeIfPresent(String.self, forKey: .address) ?? ""
+        self.address = address
+        let name = try container.decodeIfPresent(String.self, forKey: .name) ?? ""
+        self.name = name
+        do {
+            let decimals = try container.decodeIfPresent(String.self, forKey: .decimals)
+            self.decimals = decimals!
+        } catch {
+            do {
+                let decimals = try container.decodeIfPresent(Int.self, forKey: .decimals)
+                let dec = decimals!
+                self.decimals = "\(dec)"
+            } catch {
+                self.decimals = "0"
+            }
+        }
+        
+        do {
+            let priceSwitch = try container.decodeIfPresent(Bool.self, forKey: .priceSwitch) ?? false
+            self.priceSwitch = priceSwitch
+            self.price = nil
+        } catch {
+            self.priceSwitch = true
+            do {
+                let price = try container.decodeIfPresent(PriceInfo.self, forKey: .priceSwitch)
+                self.price = price
+            } catch {
+                self.price = nil
+            }
+        }
+        
+        let symbol = try container.decodeIfPresent(String.self, forKey: .symbol) ?? ""
+        self.symbol = symbol
+    }
+}
+
+public struct PriceInfo: Codable {
+    let rate: String
+    let currency: String
+    
+    enum CodingKeys: String, CodingKey {
+        case rate
+        case currency
+    }
+}
+
+public struct EthplorerEth: Codable {
+    let balance: Double
+    
+    enum CodingKeys: String, CodingKey {
+        case balance
+    }
+}
+
+public struct EthplorerError: Codable {
+    let code: Int?
+    let message: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case code
+        case message
+    }
+}
+
 public struct CMCData: Codable {
     
     let id: String

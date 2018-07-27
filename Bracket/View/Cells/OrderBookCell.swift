@@ -26,7 +26,7 @@ class OrderBookCell: UICollectionViewCell {
         return label
     }()
     
-    let separatorBottom = GenericUnderline(color: .black, alpha: 0)
+    let separatorBottom = GenericView(color: .black, alpha: 0)
     
     func addViews() {
         

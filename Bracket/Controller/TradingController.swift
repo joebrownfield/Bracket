@@ -85,9 +85,9 @@ class TradingController: UIViewController, UITextFieldDelegate {
         return label
     }()
     
-    let tradeOrderUnderline = GenericUnderline(color: MainPageOptions().tabBarColor, alpha: 1)
+    let tradeOrderUnderline = GenericView(color: MainPageOptions().tabBarColor, alpha: 1)
     
-    let openOrderUnderline = GenericUnderline(color: MainPageOptions().navigationTitleColor, alpha: 0.1)
+    let openOrderUnderline = GenericView(color: MainPageOptions().navigationTitleColor, alpha: 0.1)
     
     let quoteCurrencyPrice = GenericNumTextField("Price", .center, fontLight(15))
     

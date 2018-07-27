@@ -61,7 +61,7 @@ class GenericButton: UIButton {
     }
 }
 
-class GenericView: UIView {
+class GenericUnderline: UIView {
     init(color: UIColor, alpha: CGFloat) {
         super.init(frame: .zero)
         self.backgroundColor = color

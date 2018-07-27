@@ -18,9 +18,9 @@ class MenuDropdownCell: BaseCell {
         return label
     }()
     
-    let separator = GenericUnderline(color: UIColor(red: 0, green: 0, blue: 0, alpha: 0.5), alpha: 0.5)
+    let separator = GenericView(color: UIColor(red: 0, green: 0, blue: 0, alpha: 0.5), alpha: 0.5)
     
-    let separatorBottom = GenericUnderline(color: UIColor(red: 0, green: 0, blue: 0, alpha: 0.5), alpha: 0.5)
+    let separatorBottom = GenericView(color: UIColor(red: 0, green: 0, blue: 0, alpha: 0.5), alpha: 0.5)
     
     let mainPageOptions = MainPageOptions()
     

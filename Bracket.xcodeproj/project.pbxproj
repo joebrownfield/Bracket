@@ -36,6 +36,7 @@
 		D83AB05920DBC59200DED87B /* OrderBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83AB05820DBC59200DED87B /* OrderBookView.swift */; };
 		D83AB05B20DBC67C00DED87B /* OrderBookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83AB05A20DBC67C00DED87B /* OrderBookCell.swift */; };
 		D841C8AE20F263D300D1EEA4 /* Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D841C8AD20F263D300D1EEA4 /* Generics.swift */; };
+		D84510FC2108C87000283E8C /* Ethplorer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D84510FB2108C87000283E8C /* Ethplorer.swift */; };
 		D851DB7220E7F1B100AB52EA /* OpenOrdersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D851DB7120E7F1B100AB52EA /* OpenOrdersView.swift */; };
 		D851DB7420E7F2CB00AB52EA /* OpenOrdersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D851DB7320E7F2CB00AB52EA /* OpenOrdersCell.swift */; };
 		D872456420CE24DA000022E0 /* TickersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D872456320CE24DA000022E0 /* TickersCell.swift */; };
@@ -104,6 +105,7 @@
 		D83AB05820DBC59200DED87B /* OrderBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookView.swift; sourceTree = "<group>"; };
 		D83AB05A20DBC67C00DED87B /* OrderBookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookCell.swift; sourceTree = "<group>"; };
 		D841C8AD20F263D300D1EEA4 /* Generics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Generics.swift; sourceTree = "<group>"; };
+		D84510FB2108C87000283E8C /* Ethplorer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ethplorer.swift; sourceTree = "<group>"; };
 		D851DB7120E7F1B100AB52EA /* OpenOrdersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenOrdersView.swift; sourceTree = "<group>"; };
 		D851DB7320E7F2CB00AB52EA /* OpenOrdersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenOrdersCell.swift; sourceTree = "<group>"; };
 		D872456320CE24DA000022E0 /* TickersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickersCell.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				D82AEE7820C7745000FCC0A3 /* Idex.swift */,
 				D82AEE7A20C7745B00FCC0A3 /* Kucoin.swift */,
 				D82AEE7C20C7788200FCC0A3 /* BaseAPI.swift */,
+				D84510FB2108C87000283E8C /* Ethplorer.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -503,6 +506,7 @@
 				D8F6205520EBA462002BAE5A /* OrdersViewController.swift in Sources */,
 				D82AEE7D20C7788200FCC0A3 /* BaseAPI.swift in Sources */,
 				D838B15B20E3105B0018A79F /* WalletInfoTableController.swift in Sources */,
+				D84510FC2108C87000283E8C /* Ethplorer.swift in Sources */,
 				D838B11420E0C3590018A79F /* MenuDropdownCell.swift in Sources */,
 				D838B10820DFDB6A0018A79F /* TradingAPIHelpers.swift in Sources */,
 			);
