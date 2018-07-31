@@ -87,7 +87,12 @@ class TickersCollectionView: BaseCell, UICollectionViewDataSource, UICollectionV
         let pairingItem = pairingData[indexPath.item]
         cell.symbol.text = pairingItem.symbol
         cell.volume.text = "Vol: " + numberformatter.string(for: pairingItem.vol)!
-        let lastDealPrice = priceformatter.string(for: pairingItem.lastDealPrice)!
+        let lastDealPrice: String
+        if Fiat(rawValue: pairingItem.coinTypePair) != nil {
+            lastDealPrice = pairingItem.lastDealPrice.toString().numberToStringFormat(2)
+        } else {
+            lastDealPrice = priceformatter.string(for: pairingItem.lastDealPrice)!
+        }
         cell.price.text = lastDealPrice
         let basePrices = (TickerInformation.sharedInstance.currencyPrices.filter { $0.base == pairingItem.coinTypePair })
         if basePrices.count > 0, let basePrice = basePrices[0] as CoinbasePairInfo? {

@@ -8,8 +8,8 @@
 
 import Foundation
 
-class Ethplorer {
-    let apiKey = "freekey"
+final class Ethplorer {
+    private let apiKey = "freekey"
 }
 
 extension Ethplorer {

@@ -8,10 +8,16 @@
 
 import Foundation
 
-class Bittrex {
+final class Bittrex {
+    static let shared = Bittrex(apiKey: "", secret: "")
     var apiKey = ""
     var secret = ""
     let exchg: Exchanges = .bittrex
+    
+    public init(apiKey: String, secret: String) {
+        self.apiKey = apiKey
+        self.secret = secret
+    }
 }
 
 extension Bittrex {
@@ -36,7 +42,7 @@ class BittrexRequest: BaseAPI {
     }
 }
 
-class BittrexCalls {
+final class BittrexCalls {
     class GetAllPairings: BittrexRequest {
         init() {
             super.init(httpMethod: .get, endpoint: "/public/getmarketsummaries", authActive: false)

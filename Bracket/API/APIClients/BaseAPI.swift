@@ -8,12 +8,6 @@
 
 import Foundation
 
-class AllKeys {
-    static let kuCoinShared = KuCoin(apiKey: "", secret: "")
-    static let idexShared = IDEX()
-    static let bittrexShared = Bittrex()
-}
-
 protocol HTTPRequirements {
     var baseURL: String { get }
     var httpMethod: HTTPMethod { get }

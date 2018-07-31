@@ -27,9 +27,17 @@ class MainPageController: UICollectionViewController, UICollectionViewDelegateFl
     
     var keyboardEnabled: Bool = false
     
-    let kuCoin = KuCoin(apiKey: AllKeys.kuCoinShared.apiKey, secret: AllKeys.kuCoinShared.secret)
-    let idex = IDEX()
-    let bittrex = Bittrex()
+    private var kuCoin: KuCoin {
+        return KuCoin.shared
+    }
+    
+    private var idex: IDEX {
+        return IDEX.shared
+    }
+    
+    private var bittrex: Bittrex {
+        return Bittrex.shared
+    }
     
     lazy var pairingBar: PairingBar = {
         let pb = PairingBar()
@@ -313,12 +321,12 @@ class MainPageController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     func resetKeys() {
-        kuCoin.apiKey = AllKeys.kuCoinShared.apiKey
-        kuCoin.secret = AllKeys.kuCoinShared.secret
-        idex.apiKey = AllKeys.idexShared.apiKey
-        idex.secret = AllKeys.idexShared.secret
-        bittrex.apiKey = AllKeys.bittrexShared.apiKey
-        bittrex.secret = AllKeys.bittrexShared.secret
+        kuCoin.apiKey = KuCoin.shared.apiKey
+        kuCoin.secret = KuCoin.shared.secret
+        idex.apiKey = IDEX.shared.apiKey
+        idex.secret = IDEX.shared.secret
+        bittrex.apiKey = Bittrex.shared.apiKey
+        bittrex.secret = Bittrex.shared.secret
     }
     
     func loadIdexData() {

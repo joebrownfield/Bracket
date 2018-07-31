@@ -57,8 +57,8 @@ extension TradingController {
             
             sells = sells.filter { $0[0] != "" }
             buys = buys.filter { $0[0] != "" }
-            sells.sort { Double($0[0])! < Double($1[0])! }
-            buys.sort { Double($0[0])! > Double($1[0])! }
+            sells.sort { $0[0].toDouble() < $1[0].toDouble() }
+            buys.sort { $0[0].toDouble() > $1[0].toDouble() }
             
             var asks: [Order] = [Order]()
             for sell in sells {

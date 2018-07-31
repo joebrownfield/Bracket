@@ -9,7 +9,8 @@
 import UIKit
 
 class MainPageOptions {
-    let options: [Exchanges] = [.combination,.idex,.bittrex,.kucoin]
+    let options: [Exchanges] = [.combination, .idex,.bittrex,.kucoin]
+    let fiat: [Fiat] = [.usd, .eur, .gbp]
     let cvSpacing = "10"
     let cvHeight: CGFloat = 75
     let pairingHeight: Int = 50
@@ -102,9 +103,16 @@ func getBalanceValue(_ exchg: Exchanges, _ coin: String) -> ExchangeBalance? {
 
 enum Exchanges: String {
     case combination = "Combination"
+    case coinbase = "Coinbase Pro"
     case idex = "IDEX"
     case bittrex = "Bittrex"
     case kucoin = "KuCoin"
     case wallet = "Wallet"
     case none = "None"
+}
+
+enum Fiat: String {
+    case usd = "USD"
+    case eur = "EUR"
+    case gbp = "GBP"
 }

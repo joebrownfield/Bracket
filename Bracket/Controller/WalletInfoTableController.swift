@@ -35,10 +35,10 @@ class WalletInfoTableController: UITableViewController, WalletTableCellDelegate 
     var plusIconAnchorConstraint: NSLayoutConstraint?
     var anchorValue: Int = 10
     var navBarHeight: CGFloat = 88
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView.backgroundColor = mainPageOptions.backgroundColor
         
         tableView.register(WalletTableViewCell.self, forCellReuseIdentifier: cellId)
@@ -53,7 +53,7 @@ class WalletInfoTableController: UITableViewController, WalletTableCellDelegate 
         
         getWallets(wallets: &wallets, exchangeOptions: &exchangeOptions)
         tableView.reloadData()
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
@@ -64,14 +64,14 @@ class WalletInfoTableController: UITableViewController, WalletTableCellDelegate 
         }
     }
     
-//    func getWallets() {
-//
-//        getStoredWallets(&wallets)
-//        tableView.reloadData()
-//
-//        localGetExchgKeys(&exchangeOptions)
-//        tableView.reloadData()
-//    }
+    //    func getWallets() {
+    //
+    //        getStoredWallets(&wallets)
+    //        tableView.reloadData()
+    //
+    //        localGetExchgKeys(&exchangeOptions)
+    //        tableView.reloadData()
+    //    }
     
     func localUpdateApiArray(apiKey: APIKeyValues) {
         updateApiArray(apiKey: apiKey, exchangeOptions: &exchangeOptions)
@@ -96,19 +96,19 @@ class WalletInfoTableController: UITableViewController, WalletTableCellDelegate 
         additionalWallets += 1
         tableView.reloadData()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 3
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         switch section {
@@ -120,7 +120,7 @@ class WalletInfoTableController: UITableViewController, WalletTableCellDelegate 
             return exchangeOptions.count
         }
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
@@ -135,6 +135,8 @@ class WalletInfoTableController: UITableViewController, WalletTableCellDelegate 
             let cell = tableView.dequeueReusableCell(withIdentifier: walletCellId, for: indexPath) as! AddWalletCell
             if !wallets.isEmpty, wallets.count > indexPath.row, let address = wallets[indexPath.row] as Wallets? {
                 cell.apiKeyTextField.text = address.address
+            } else {
+                cell.apiKeyTextField.text = ""
             }
             cell.delegate = self
             cell.backgroundColor = mainPageOptions.backgroundColor
@@ -191,5 +193,5 @@ class WalletInfoTableController: UITableViewController, WalletTableCellDelegate 
         
         addGestureRecognizers()
     }
-
+    
 }
