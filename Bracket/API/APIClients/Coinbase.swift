@@ -8,7 +8,8 @@
 
 import Foundation
 
-class Coinbase {
+final class Coinbase {
+    static let shared: Coinbase = Coinbase()
     let basePairs: [String] = ["BTC-USD","ETH-USD"]
 }
 
@@ -28,7 +29,7 @@ class CoinbaseRequest: BaseAPI {
     }
 }
 
-class CoinbaseCalls {
+final class CoinbaseCalls {
     class GetBaselinePrices: CoinbaseRequest {
         init(arguments: String) {
             super.init(httpMethod: .get, endpoint: "/prices", authActive: false)
@@ -44,7 +45,7 @@ class CMCRequest: BaseAPI {
     }
 }
 
-class CMCCalls {
+final class CMCCalls {
     
     func getBaselinePrices(completion: @escaping ([CMCData]?, String?) -> Void) {
         let httpDetails = CMCCalls.GetBaselinePrices()

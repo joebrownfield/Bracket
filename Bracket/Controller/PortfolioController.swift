@@ -264,14 +264,13 @@ class PortfolioController: UICollectionViewController, UICollectionViewDelegateF
             guard !(["ETH"].contains(coinBalance.coinType)) else { continue }
             switch coinBalance.exchange {
             case .kucoin:
-                let kuCoin = KuCoin(apiKey: AllKeys.kuCoinShared.apiKey, secret: AllKeys.kuCoinShared.secret)
                 let symbol: String
                 if coinBalance.coinType == "BTC" {
                     symbol = "ETH-BTC"
                 } else {
                     symbol = coinBalance.coinType + "-" + "ETH"
                 }
-                kuCoin.getCoinPairing(symbol: symbol) { (results, error) in
+                KuCoin.shared.getCoinPairing(symbol: symbol) { (results, error) in
                     guard let results = results, let coinInfo = results.data as PairInfo? else { return }
                     DispatchQueue.main.async {
                         var updatedValue = ExchangeBalances.sharedInstance.exchangeBalances[i]

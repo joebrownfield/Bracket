@@ -14,9 +14,17 @@ class TradingController: UIViewController, UITextFieldDelegate {
     //==================================================================
     // Variables
     //==================================================================
-    let kuCoin = KuCoin(apiKey: AllKeys.kuCoinShared.apiKey, secret: AllKeys.kuCoinShared.secret)
-    let idex = IDEX()
-    let bittrex = Bittrex()
+    var kuCoin: KuCoin {
+        return KuCoin.shared
+    }
+    
+    var idex: IDEX {
+        return IDEX.shared
+    }
+    
+    var bittrex: Bittrex {
+        return Bittrex.shared
+    }
     
     lazy var sellBook: OrderBook = {
         let sellOrderBook = OrderBook()

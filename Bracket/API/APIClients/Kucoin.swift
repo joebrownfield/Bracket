@@ -9,14 +9,13 @@
 import Foundation
 import Crypto
 
-class KuCoin {
+final class KuCoin {
+    static let shared = KuCoin(apiKey: "", secret: "")
     var apiKey = ""
     var secret = ""
     let exchg: Exchanges = .kucoin
     
-    let getPairings = KuCoinCalls.GetAllPairings()
-    
-    init(apiKey: String, secret: String) {
+    public init(apiKey: String, secret: String) {
         self.apiKey = apiKey
         self.secret = secret
     }
@@ -24,7 +23,7 @@ class KuCoin {
 
 extension KuCoin {
     func getAllPairings(completion: @escaping (CoinPairings?, String?) -> Void) {
-        httpRequest(req: getPairings, type: CoinPairings.self, completion: completion)
+        httpRequest(req: KuCoinCalls.GetAllPairings(), type: CoinPairings.self, completion: completion)
     }
     
     func getCoinPairing(symbol: String, completion: @escaping (CoinPairing?, String?) -> Void) {
@@ -97,8 +96,8 @@ class KuCoinRequest: BaseAPI {
         var req = URLRequest(url: url)
         req.httpMethod = httpMethod.rawValue
         if authActive {
-            let signed = HMAC.sign(message: message, algorithm: .sha256, key: AllKeys.kuCoinShared.secret)
-            req.addValue(AllKeys.kuCoinShared.apiKey, forHTTPHeaderField: "KC-API-KEY")
+            let signed = HMAC.sign(message: message, algorithm: .sha256, key: KuCoin.shared.secret)
+            req.addValue(KuCoin.shared.apiKey, forHTTPHeaderField: "KC-API-KEY")
             req.addValue("\(nonce)", forHTTPHeaderField: "KC-API-NONCE")
             req.addValue(signed!, forHTTPHeaderField: "KC-API-SIGNATURE")
         }

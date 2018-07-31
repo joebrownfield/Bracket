@@ -83,8 +83,7 @@ class OpenOrdersCell: PortfolioCell {
     
     @objc func cancelButtonPressed(_ sender: UIButton) {
         print("Cancel Pressed")
-        let kuCoin = KuCoin(apiKey: AllKeys.kuCoinShared.apiKey, secret: AllKeys.kuCoinShared.secret)
-        kuCoin.cancelOrder(order: openOrders!) { (results, error) in
+        KuCoin.shared.cancelOrder(order: openOrders!) { (results, error) in
             guard let results = results else {
                 return
             }

@@ -40,8 +40,21 @@
 		D851DB7220E7F1B100AB52EA /* OpenOrdersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D851DB7120E7F1B100AB52EA /* OpenOrdersView.swift */; };
 		D851DB7420E7F2CB00AB52EA /* OpenOrdersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D851DB7320E7F2CB00AB52EA /* OpenOrdersCell.swift */; };
 		D872456420CE24DA000022E0 /* TickersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D872456320CE24DA000022E0 /* TickersCell.swift */; };
+		D87E7B02210FE56B00D598BA /* CoinbaseProModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87E7B01210FE56B00D598BA /* CoinbaseProModel.swift */; };
+		D87E7B04210FE5AF00D598BA /* BittrexModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87E7B03210FE5AF00D598BA /* BittrexModel.swift */; };
+		D87E7B06210FE75600D598BA /* CoinbaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87E7B05210FE75600D598BA /* CoinbaseModel.swift */; };
+		D87E7B08210FE85B00D598BA /* IDEXModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87E7B07210FE85A00D598BA /* IDEXModel.swift */; };
+		D87E7B0A210FE8E000D598BA /* KuCoinModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87E7B09210FE8E000D598BA /* KuCoinModel.swift */; };
+		D87E7B0C210FE9DC00D598BA /* EthplorerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87E7B0B210FE9DC00D598BA /* EthplorerModel.swift */; };
+		D87E7B0F2110297000D598BA /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87E7B0E2110297000D598BA /* UIView+Additions.swift */; };
+		D87E7B11211029E800D598BA /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87E7B10211029E800D598BA /* String+Additions.swift */; };
+		D87E7B1321102A1200D598BA /* Double+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87E7B1221102A1200D598BA /* Double+Additions.swift */; };
+		D87E7B1521102A4D00D598BA /* UIViewController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87E7B1421102A4D00D598BA /* UIViewController+Additions.swift */; };
+		D87E7B1721102A8800D598BA /* UITextView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87E7B1621102A8800D598BA /* UITextView+Additions.swift */; };
+		D87E7B1921102AFD00D598BA /* Font+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87E7B1821102AFD00D598BA /* Font+Color.swift */; };
 		D8A83C4120D1D68C003498BD /* MainPageSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A83C4020D1D68C003498BD /* MainPageSearch.swift */; };
 		D8D9FF0220D9314900CD2D53 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9FF0120D9314900CD2D53 /* WebViewController.swift */; };
+		D8EA2118210B7F7200364B0B /* CoinbasePro.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8EA2117210B7F7200364B0B /* CoinbasePro.swift */; };
 		D8F6205520EBA462002BAE5A /* OrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F6205420EBA462002BAE5A /* OrdersViewController.swift */; };
 		D8FF6E4D20C0425A0091AD11 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FF6E4C20C0425A0091AD11 /* AppDelegate.swift */; };
 		D8FF6E5220C0425A0091AD11 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8FF6E5020C0425A0091AD11 /* Main.storyboard */; };
@@ -53,7 +66,6 @@
 		D8FF6E7D20C043360091AD11 /* MainPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FF6E7C20C043360091AD11 /* MainPageController.swift */; };
 		D8FF6E7F20C055860091AD11 /* MainPageOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FF6E7E20C055860091AD11 /* MainPageOptions.swift */; };
 		D8FF6E8120C058140091AD11 /* MainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FF6E8020C058140091AD11 /* MainCell.swift */; };
-		D8FF6E8320C058B40091AD11 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FF6E8220C058B40091AD11 /* Extensions.swift */; };
 		D8FF6E8720C1583F0091AD11 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8FF6E8520C1583F0091AD11 /* Lato-Regular.ttf */; };
 		D8FF6E8820C1583F0091AD11 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8FF6E8620C1583F0091AD11 /* Lato-Light.ttf */; };
 /* End PBXBuildFile section */
@@ -109,8 +121,21 @@
 		D851DB7120E7F1B100AB52EA /* OpenOrdersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenOrdersView.swift; sourceTree = "<group>"; };
 		D851DB7320E7F2CB00AB52EA /* OpenOrdersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenOrdersCell.swift; sourceTree = "<group>"; };
 		D872456320CE24DA000022E0 /* TickersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickersCell.swift; sourceTree = "<group>"; };
+		D87E7B01210FE56B00D598BA /* CoinbaseProModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinbaseProModel.swift; sourceTree = "<group>"; };
+		D87E7B03210FE5AF00D598BA /* BittrexModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BittrexModel.swift; sourceTree = "<group>"; };
+		D87E7B05210FE75600D598BA /* CoinbaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinbaseModel.swift; sourceTree = "<group>"; };
+		D87E7B07210FE85A00D598BA /* IDEXModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDEXModel.swift; sourceTree = "<group>"; };
+		D87E7B09210FE8E000D598BA /* KuCoinModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KuCoinModel.swift; sourceTree = "<group>"; };
+		D87E7B0B210FE9DC00D598BA /* EthplorerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthplorerModel.swift; sourceTree = "<group>"; };
+		D87E7B0E2110297000D598BA /* UIView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
+		D87E7B10211029E800D598BA /* String+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
+		D87E7B1221102A1200D598BA /* Double+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Additions.swift"; sourceTree = "<group>"; };
+		D87E7B1421102A4D00D598BA /* UIViewController+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Additions.swift"; sourceTree = "<group>"; };
+		D87E7B1621102A8800D598BA /* UITextView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Additions.swift"; sourceTree = "<group>"; };
+		D87E7B1821102AFD00D598BA /* Font+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Color.swift"; sourceTree = "<group>"; };
 		D8A83C4020D1D68C003498BD /* MainPageSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageSearch.swift; sourceTree = "<group>"; };
 		D8D9FF0120D9314900CD2D53 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		D8EA2117210B7F7200364B0B /* CoinbasePro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinbasePro.swift; sourceTree = "<group>"; };
 		D8F6205420EBA462002BAE5A /* OrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersViewController.swift; sourceTree = "<group>"; };
 		D8FF6E4920C0425A0091AD11 /* Bracket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bracket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8FF6E4C20C0425A0091AD11 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -128,7 +153,6 @@
 		D8FF6E7C20C043360091AD11 /* MainPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageController.swift; sourceTree = "<group>"; };
 		D8FF6E7E20C055860091AD11 /* MainPageOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageOptions.swift; sourceTree = "<group>"; };
 		D8FF6E8020C058140091AD11 /* MainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCell.swift; sourceTree = "<group>"; };
-		D8FF6E8220C058B40091AD11 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D8FF6E8520C1583F0091AD11 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
 		D8FF6E8620C1583F0091AD11 /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Light.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -189,13 +213,18 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		D82AEE6820C71AEA00FCC0A3 /* Model */ = {
+		D82AEE6820C71AEA00FCC0A3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				D82AEE7520C7742D00FCC0A3 /* API */,
 				D82AEE8520C7907300FCC0A3 /* CoinPairings.swift */,
+				D87E7B05210FE75600D598BA /* CoinbaseModel.swift */,
+				D87E7B01210FE56B00D598BA /* CoinbaseProModel.swift */,
+				D87E7B03210FE5AF00D598BA /* BittrexModel.swift */,
+				D87E7B07210FE85A00D598BA /* IDEXModel.swift */,
+				D87E7B09210FE8E000D598BA /* KuCoinModel.swift */,
+				D87E7B0B210FE9DC00D598BA /* EthplorerModel.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		D82AEE6920C7369D00FCC0A3 /* Controller */ = {
@@ -220,7 +249,6 @@
 			isa = PBXGroup;
 			children = (
 				D8FF6E7E20C055860091AD11 /* MainPageOptions.swift */,
-				D8FF6E8220C058B40091AD11 /* Extensions.swift */,
 				D82AEE7E20C7795200FCC0A3 /* Enumerations.swift */,
 				D838B15E20E34F490018A79F /* CoreDataHelpers.swift */,
 			);
@@ -230,12 +258,8 @@
 		D82AEE7520C7742D00FCC0A3 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				D838B10920DFE5940018A79F /* Coinbase.swift */,
-				D82AEE7620C7744500FCC0A3 /* Bittrex.swift */,
-				D82AEE7820C7745000FCC0A3 /* Idex.swift */,
-				D82AEE7A20C7745B00FCC0A3 /* Kucoin.swift */,
-				D82AEE7C20C7788200FCC0A3 /* BaseAPI.swift */,
-				D84510FB2108C87000283E8C /* Ethplorer.swift */,
+				D87E7B00210FE53A00D598BA /* APIClients */,
+				D82AEE6820C71AEA00FCC0A3 /* Models */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -247,6 +271,33 @@
 				D838B16120E358A80018A79F /* Crypto.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D87E7B00210FE53A00D598BA /* APIClients */ = {
+			isa = PBXGroup;
+			children = (
+				D8EA2117210B7F7200364B0B /* CoinbasePro.swift */,
+				D838B10920DFE5940018A79F /* Coinbase.swift */,
+				D82AEE7620C7744500FCC0A3 /* Bittrex.swift */,
+				D82AEE7820C7745000FCC0A3 /* Idex.swift */,
+				D82AEE7A20C7745B00FCC0A3 /* Kucoin.swift */,
+				D82AEE7C20C7788200FCC0A3 /* BaseAPI.swift */,
+				D84510FB2108C87000283E8C /* Ethplorer.swift */,
+			);
+			path = APIClients;
+			sourceTree = "<group>";
+		};
+		D87E7B0D2110294C00D598BA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D87E7B0E2110297000D598BA /* UIView+Additions.swift */,
+				D87E7B10211029E800D598BA /* String+Additions.swift */,
+				D87E7B1221102A1200D598BA /* Double+Additions.swift */,
+				D87E7B1421102A4D00D598BA /* UIViewController+Additions.swift */,
+				D87E7B1621102A8800D598BA /* UITextView+Additions.swift */,
+				D87E7B1821102AFD00D598BA /* Font+Color.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		D8FF6E4020C0425A0091AD11 = {
@@ -273,8 +324,9 @@
 		D8FF6E4B20C0425A0091AD11 /* Bracket */ = {
 			isa = PBXGroup;
 			children = (
+				D87E7B0D2110294C00D598BA /* Extensions */,
 				D82AEE6B20C7378600FCC0A3 /* Resources */,
-				D82AEE6820C71AEA00FCC0A3 /* Model */,
+				D82AEE7520C7742D00FCC0A3 /* API */,
 				D8FF6E8420C156800091AD11 /* Fonts */,
 				D82AEE6620C6FA8600FCC0A3 /* View */,
 				D82AEE6920C7369D00FCC0A3 /* Controller */,
@@ -473,6 +525,7 @@
 			files = (
 				D838B15D20E310DD0018A79F /* WalletTableViewCell.swift in Sources */,
 				D851DB7220E7F1B100AB52EA /* OpenOrdersView.swift in Sources */,
+				D87E7B11211029E800D598BA /* String+Additions.swift in Sources */,
 				D8FF6E7D20C043360091AD11 /* MainPageController.swift in Sources */,
 				D872456420CE24DA000022E0 /* TickersCell.swift in Sources */,
 				D838B15F20E34F490018A79F /* CoreDataHelpers.swift in Sources */,
@@ -480,32 +533,43 @@
 				D817826420D3382300041DD0 /* ExtrasController.swift in Sources */,
 				D838B10E20E0B8320018A79F /* PortfolioCell.swift in Sources */,
 				D838B11220E0C2230018A79F /* MenuDropdownController.swift in Sources */,
+				D87E7B0C210FE9DC00D598BA /* EthplorerModel.swift in Sources */,
 				D8D9FF0220D9314900CD2D53 /* WebViewController.swift in Sources */,
 				D83AB05920DBC59200DED87B /* OrderBookView.swift in Sources */,
-				D8FF6E8320C058B40091AD11 /* Extensions.swift in Sources */,
+				D87E7B1321102A1200D598BA /* Double+Additions.swift in Sources */,
 				D8FF6E4D20C0425A0091AD11 /* AppDelegate.swift in Sources */,
 				D8FF6E7F20C055860091AD11 /* MainPageOptions.swift in Sources */,
 				D851DB7420E7F2CB00AB52EA /* OpenOrdersCell.swift in Sources */,
 				D82AEE7B20C7745B00FCC0A3 /* Kucoin.swift in Sources */,
 				D83AB05520DBC2DA00DED87B /* TradingController.swift in Sources */,
+				D87E7B02210FE56B00D598BA /* CoinbaseProModel.swift in Sources */,
 				D82AEE7920C7745000FCC0A3 /* Idex.swift in Sources */,
 				D82AEE7720C7744500FCC0A3 /* Bittrex.swift in Sources */,
 				D838B15920E25B820018A79F /* BracketCoreData.xcdatamodeld in Sources */,
+				D87E7B0F2110297000D598BA /* UIView+Additions.swift in Sources */,
 				D83AB05B20DBC67C00DED87B /* OrderBookCell.swift in Sources */,
 				D82AEE7F20C7795200FCC0A3 /* Enumerations.swift in Sources */,
 				D82AEE8620C7907300FCC0A3 /* CoinPairings.swift in Sources */,
+				D87E7B1521102A4D00D598BA /* UIViewController+Additions.swift in Sources */,
 				D841C8AE20F263D300D1EEA4 /* Generics.swift in Sources */,
+				D87E7B1721102A8800D598BA /* UITextView+Additions.swift in Sources */,
+				D8EA2118210B7F7200364B0B /* CoinbasePro.swift in Sources */,
 				D8A83C4120D1D68C003498BD /* MainPageSearch.swift in Sources */,
 				D82AEE6520C6F54900FCC0A3 /* BaseCell.swift in Sources */,
 				D82AEE5F20C6B27300FCC0A3 /* PairingBar.swift in Sources */,
+				D87E7B0A210FE8E000D598BA /* KuCoinModel.swift in Sources */,
 				D817826220D335CE00041DD0 /* PortfolioController.swift in Sources */,
 				D8FF6E7B20C042F10091AD11 /* CustomTabBarController.swift in Sources */,
 				D82AEE6120C6F06100FCC0A3 /* PairingCell.swift in Sources */,
+				D87E7B08210FE85B00D598BA /* IDEXModel.swift in Sources */,
 				D8FF6E8120C058140091AD11 /* MainCell.swift in Sources */,
 				D838B10A20DFE5940018A79F /* Coinbase.swift in Sources */,
 				D8F6205520EBA462002BAE5A /* OrdersViewController.swift in Sources */,
 				D82AEE7D20C7788200FCC0A3 /* BaseAPI.swift in Sources */,
 				D838B15B20E3105B0018A79F /* WalletInfoTableController.swift in Sources */,
+				D87E7B04210FE5AF00D598BA /* BittrexModel.swift in Sources */,
+				D87E7B06210FE75600D598BA /* CoinbaseModel.swift in Sources */,
+				D87E7B1921102AFD00D598BA /* Font+Color.swift in Sources */,
 				D84510FC2108C87000283E8C /* Ethplorer.swift in Sources */,
 				D838B11420E0C3590018A79F /* MenuDropdownCell.swift in Sources */,
 				D838B10820DFDB6A0018A79F /* TradingAPIHelpers.swift in Sources */,

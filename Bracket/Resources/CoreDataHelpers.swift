@@ -34,19 +34,18 @@ func getStoredExchgKeys() {
 }
 
 func updateExchangeKeys(apiKey: APIKeyValues) {
-    let exchg = apiKey.exchange!
+    guard let exchg = apiKey.exchange else { return }
     
     switch exchg {
     case .idex:
-        AllKeys.idexShared.apiKey = apiKey.apiKey!
-        AllKeys.idexShared.secret = apiKey.secretKey!
+        IDEX.shared.apiKey = apiKey.apiKey!
+        IDEX.shared.secret = apiKey.secretKey!
     case .bittrex:
-        break
-        //Bittrex.sharedInstance.apiKey = apiKey.apiKey!
-        //Bittrex.sharedInstance.secret = apiKey.secretKey!
+        Bittrex.shared.apiKey = apiKey.apiKey!
+        Bittrex.shared.secret = apiKey.secretKey!
     case .kucoin:
-        AllKeys.kuCoinShared.apiKey = apiKey.apiKey!
-        AllKeys.kuCoinShared.secret = apiKey.secretKey!
+        KuCoin.shared.apiKey = apiKey.apiKey!
+        KuCoin.shared.secret = apiKey.secretKey!
     default:
         break
     }
@@ -126,8 +125,7 @@ func updateApiArray(apiKey: APIKeyValues, exchangeOptions: inout [APIKeyValues])
 func getExchgOpenOrders(exchg: Exchanges, completion: @escaping () -> Void) {
     switch exchg {
     case .kucoin:
-        let kuCoin = KuCoin(apiKey: AllKeys.kuCoinShared.apiKey, secret: AllKeys.kuCoinShared.secret)
-        kuCoin.getOpenOrders { (results, error) in
+        KuCoin.shared.getOpenOrders { (results, error) in
             guard let result = results?.data else {
                 completion()
                 return
@@ -235,24 +233,26 @@ func updateAllBalances(activeVC: UIViewController, completion: @escaping () -> V
 }
 
 func getExchgBalance(activeVC: UIViewController, exchg: Exchanges, completion: @escaping (Bool) -> Void) {
-    let kuCoin = KuCoin(apiKey: AllKeys.kuCoinShared.apiKey, secret: AllKeys.kuCoinShared.secret)
     let eb = ExchangeBalances.sharedInstance
     
     switch exchg {
     case .idex:
-        guard AllKeys.idexShared.apiKey != "" else {
+        guard IDEX.shared.apiKey != "" else {
             completion(false)
             break
         }
+        completion(false)
         break
     case .bittrex:
-        guard AllKeys.bittrexShared.apiKey != "" else {
+        guard Bittrex.shared.apiKey != "" else {
             completion(false)
             break
         }
+        completion(false)
         break
     case .kucoin:
-        guard AllKeys.kuCoinShared.apiKey != "" else {
+        let kuCoin = KuCoin.shared
+        guard kuCoin.apiKey != "" else {
             completion(false)
             break
         }
@@ -285,13 +285,28 @@ func getExchgBalance(activeVC: UIViewController, exchg: Exchanges, completion: @
 
 func displayBalanceLoadAlert(_ activeVC: UIViewController, _ exchg: Exchanges) {
     let message = "Error loading " + exchg.rawValue + " balance"
-    activeVC.alert(message: message, title: "Error")
+    DispatchQueue.main.async {
+        activeVC.view.removeActivityIndicator()
+        activeVC.alert(message: message, title: "Error")
+    }
+}
+
+func getCoinbaseBasePrices(basePair: String, completion: @escaping () -> Void ) {
+    let coinbase = Coinbase()
+    coinbase.getBaselinePrices(pair: basePair) { (results, error) in
+        guard let pairs = results else {
+            completion()
+            return
+        }
+        TickerInformation.sharedInstance.currencyPrices.append(pairs.data)
+        completion()
+    }
 }
 
 func preloadAllData(activeVC: UIViewController) {
     activeVC.view.addActivityIndicator("Loading Data")
     
-    let basePairs = Coinbase().basePairs
+    let basePairs = Coinbase.shared.basePairs
     TickerInformation.sharedInstance.currencyPrices = [CoinbasePairInfo]()
     getCoinbaseBasePrices(basePair: basePairs[0]) {
         getCoinbaseBasePrices(basePair: basePairs[1], completion: {
@@ -321,8 +336,7 @@ func getAllOrderHistory() {
 func getExchgOrderHistory(_ exchg: Exchanges) {
     switch exchg {
     case .kucoin:
-        let kuCoin = KuCoin(apiKey: AllKeys.kuCoinShared.apiKey, secret: AllKeys.kuCoinShared.secret)
-        kuCoin.getOrderHistory { (results, error) in
+        KuCoin.shared.getOrderHistory { (results, error) in
             guard let results = results, results.success == true else { return }
             TickerInformation.sharedInstance.exchgOrderHist = TickerInformation.sharedInstance.exchgOrderHist.filter { $0.exchg != exchg.rawValue }
             let data = results.data.datas
@@ -348,8 +362,7 @@ func updatePrecisionArray(exchg: Exchanges) {
     case .kucoin:
         let precisionArray = TickerInformation.sharedInstance.coinPrecisions
         if precisionArray.count < 1 {
-            let kuCoin = KuCoin(apiKey: AllKeys.kuCoinShared.apiKey, secret: AllKeys.kuCoinShared.secret)
-            kuCoin.getCoinPrecision() { (results, error) in
+            KuCoin.shared.getCoinPrecision() { (results, error) in
                 guard let result = results?.data else {
                     return
                 }
@@ -367,32 +380,31 @@ func updatePrecisionArray(exchg: Exchanges) {
 
 func updateChangePercent(_ coinBalance: ExchangeBalance) {
     
-        guard !(["ETH"].contains(coinBalance.coinType)) else { return }
-        switch coinBalance.exchange {
-        case .kucoin:
-            let kuCoin = KuCoin(apiKey: AllKeys.kuCoinShared.apiKey, secret: AllKeys.kuCoinShared.secret)
-            let symbol: String
-            if coinBalance.coinType == "BTC" {
-                symbol = "ETH-BTC"
-            } else {
-                symbol = coinBalance.coinType + "-" + "ETH"
-            }
-            kuCoin.getCoinPairing(symbol: symbol) { (results, error) in
-                guard let results = results, let coinInfo = results.data as PairInfo? else { return }
-                DispatchQueue.main.async {
-                    if let index = ExchangeBalances.sharedInstance.exchangeBalances.index(where: { $0.exchange == coinBalance.exchange && $0.coinType == coinBalance.coinType }) {
-                        var updatedValue = ExchangeBalances.sharedInstance.exchangeBalances[index]
-                        updatedValue.change = coinInfo.changeRate
-                        let lastDealPrice = "\(coinInfo.lastDealPrice)"
-                        updatedValue.price = lastDealPrice.numberToStringFormat(7)
-                        ExchangeBalances.sharedInstance.exchangeBalances[index] = updatedValue
-                    }
-                }
-                
-            }
-        default:
-            break
+    guard !(["ETH"].contains(coinBalance.coinType)) else { return }
+    switch coinBalance.exchange {
+    case .kucoin:
+        let symbol: String
+        if coinBalance.coinType == "BTC" {
+            symbol = "ETH-BTC"
+        } else {
+            symbol = coinBalance.coinType + "-" + "ETH"
         }
+        KuCoin.shared.getCoinPairing(symbol: symbol) { (results, error) in
+            guard let results = results, let coinInfo = results.data as PairInfo? else { return }
+            DispatchQueue.main.async {
+                if let index = ExchangeBalances.sharedInstance.exchangeBalances.index(where: { $0.exchange == coinBalance.exchange && $0.coinType == coinBalance.coinType }) {
+                    var updatedValue = ExchangeBalances.sharedInstance.exchangeBalances[index]
+                    updatedValue.change = coinInfo.changeRate
+                    let lastDealPrice = "\(coinInfo.lastDealPrice)"
+                    updatedValue.price = lastDealPrice.numberToStringFormat(7)
+                    ExchangeBalances.sharedInstance.exchangeBalances[index] = updatedValue
+                }
+            }
+            
+        }
+    default:
+        break
+    }
 }
 
 func globalUpdateBal(exchg: Exchanges, coinType: String, amount: Double) {

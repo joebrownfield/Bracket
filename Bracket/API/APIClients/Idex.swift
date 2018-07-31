@@ -8,10 +8,16 @@
 
 import Foundation
 
-class IDEX {
+final class IDEX {
+    static let shared = IDEX(apiKey: "", secret: "")
     var apiKey = ""
     var secret = ""
     let exchg: Exchanges = .idex
+    
+    public init(apiKey: String, secret: String) {
+        self.apiKey = apiKey
+        self.secret = secret
+    }
 }
 
 extension IDEX {
