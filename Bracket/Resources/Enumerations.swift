@@ -65,3 +65,11 @@ enum TextFieldNames: String {
     case baseAmount = "Base Amount"
     case quoteAmount = "Quote Amount"
 }
+
+enum WalletSaveErrors: String {
+    case success = "This wallet address has successfully been saved."
+    case genericError = "Error saving wallet."
+    case duplicate = "You have already saved this wallet address."
+    case empty = "Please enter a value for the wallet address."
+    case incorrect = "Please check your wallet address as it is incorrect."
+}

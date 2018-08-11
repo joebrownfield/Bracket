@@ -51,8 +51,7 @@ class WalletInfoTableController: UITableViewController, WalletTableCellDelegate 
             getKeyBaselines(exchangeOptions: &exchangeOptions)
         }
         
-        getWallets(wallets: &wallets, exchangeOptions: &exchangeOptions)
-        tableView.reloadData()
+        reloadWallets(true)
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
@@ -76,6 +75,47 @@ class WalletInfoTableController: UITableViewController, WalletTableCellDelegate 
     func localUpdateApiArray(apiKey: APIKeyValues) {
         updateApiArray(apiKey: apiKey, exchangeOptions: &exchangeOptions)
         alert(message: "Successfully added keys", title: "Success")
+    }
+    
+    func localDeleteApiArray(apiKey: APIKeyValues) {
+        updateApiArray(apiKey: apiKey, exchangeOptions: &exchangeOptions)
+        alert(message: "Successfully deleted keys", title: "Success")
+    }
+    
+    func deleteWalletInfo(address: String) -> (Bool, WalletSaveErrors) {
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return (false, .genericError) }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let keyFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Wallets")
+        keyFetch.predicate = NSPredicate(format: "address = %@", address)
+        do {
+            let request = NSBatchDeleteRequest(fetchRequest: keyFetch)
+            try managedContext.execute(request)
+            return (true, .success)
+        } catch let error as NSError {
+            print(error)
+            return (false, .genericError)
+        }
+    }
+    
+    func deleteExchgInfo(_ exchg: Exchanges) -> (Bool, String) {
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return (false, "AppDelegate Issue") }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let keyFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "ExchgKeys")
+        keyFetch.predicate = NSPredicate(format: "exchange = %@", exchg.rawValue)
+        do {
+            let request = NSBatchDeleteRequest(fetchRequest: keyFetch)
+            try managedContext.execute(request)
+            return (true, "")
+        } catch let error as NSError {
+            print(error)
+            return (false, error.localizedDescription)
+        }
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -164,9 +204,65 @@ class WalletInfoTableController: UITableViewController, WalletTableCellDelegate 
         }
     }
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.section != 0 {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == .delete) {
+            switch indexPath.section {
+            case 1:
+                if !wallets.isEmpty, wallets.count > indexPath.row, let address = wallets[indexPath.row] as Wallets? {
+                    let (success, message) = deleteWalletInfo(address: address.address!)
+                    if (success) {
+                        let eb = ExchangeBalances.sharedInstance.exchangeBalances.filter { $0.address != address.address }
+                        ExchangeBalances.sharedInstance.exchangeBalances = eb
+                        reloadWallets(false)
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                        displayAlert(title: "Success", message: "You have successfully deleted the wallet")
+                    } else {
+                        displayAlert(title: "Error", message: message.rawValue)
+                    }
+                }
+            default:
+                guard let apiKeyValue = exchangeOptions[indexPath.row] as APIKeyValues?, let exchg = apiKeyValue.exchange else { return }
+                if apiKeyValue.apiKey != "" {
+                    let (success, message) = deleteExchgInfo(exchg)
+                    if (success) {
+                        let newValue = APIKeyValues(exchange: exchg, apiKey: "", secretKey: "")
+                        let eb = ExchangeBalances.sharedInstance.exchangeBalances.filter { $0.exchange != exchg }
+                        ExchangeBalances.sharedInstance.exchangeBalances = eb
+                        if let index = TickerInformation.sharedInstance.exchangeOptions.index(where: { $0.exchange == exchg }) {
+                            TickerInformation.sharedInstance.exchangeOptions[index] = newValue
+                        }
+                        self.exchangeOptions = TickerInformation.sharedInstance.exchangeOptions
+                        updateExchangeKeys(apiKey: newValue)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            self.reloadPortfolio()
+                            self.tableView.reloadData()
+                            self.displayAlert(title: "Success", message: "You have successfully deleted the " + exchg.rawValue + " info.")
+                        }
+                    } else {
+                        displayAlert(title: "Error", message: message)
+                    }
+                }
+            }
+        }
+    }
+    
     func reloadPortfolio() {
-        updateAllBalances(activeVC: self) {
-            
+        updateAllBalances(activeVC: self) { }
+    }
+    
+    func reloadWallets(_ reload: Bool) {
+        wallets = [Wallets]()
+        getWallets(wallets: &wallets, exchangeOptions: &exchangeOptions)
+        if (reload) {
+            tableView.reloadData()
         }
     }
     
