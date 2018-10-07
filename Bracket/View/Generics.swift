@@ -30,7 +30,7 @@ class GenericNumTextField: UITextField {
         self.keyboardType = .numbersAndPunctuation
         self.autocorrectionType = .no
         self.clearButtonMode = .whileEditing
-        self.borderStyle = UITextBorderStyle.roundedRect
+        self.borderStyle = UITextField.BorderStyle.roundedRect
         self.alpha = 0.9
         self.textAlignment = alignment
         self.placeholder = text

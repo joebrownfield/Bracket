@@ -51,7 +51,7 @@ class MainPageController: UICollectionViewController, UICollectionViewDelegateFl
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
         button.setImage(UIImage(named: "backButton")?.withRenderingMode(.alwaysTemplate), for: [])
         button.setTitle("", for: [])
-        button.imageEdgeInsets = UIEdgeInsetsMake(3, 3, 3, 3)
+        button.imageEdgeInsets = UIEdgeInsets.init(top: 3, left: 3, bottom: 3, right: 3)
         button.imageView?.contentMode = .scaleAspectFit
         let titleColor = MainPageOptions().navigationTitleColor
         button.tintColor = titleColor
@@ -73,8 +73,8 @@ class MainPageController: UICollectionViewController, UICollectionViewDelegateFl
         preloadAllData(activeVC: self)
         
         configureSearchBar()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         resetKeys()
         
@@ -145,7 +145,7 @@ class MainPageController: UICollectionViewController, UICollectionViewDelegateFl
         backgroundView.backgroundColor = bkgColor
         backgroundView.addDropShadow()
         view.addSubview(backgroundView)
-        view.sendSubview(toBack: backgroundView)
+        view.sendSubviewToBack(backgroundView)
         view.setupViewConstraints(format: "V:|[v0]-" + mainPageOptions.cvSpacing + "-|", views: backgroundView)
         view.setupViewConstraints(format: "H:|-" + mainPageOptions.cvSpacing + "-[v0]-" + mainPageOptions.cvSpacing + "-|", views: backgroundView)
     }
@@ -207,15 +207,15 @@ class MainPageController: UICollectionViewController, UICollectionViewDelegateFl
             print("Adjusted Insets")
             print(adjustedInset)
             //return adjustedInset
-            return UIEdgeInsetsMake(CGFloat(pairingHeight), 0, 0, 0)
+            return UIEdgeInsets.init(top: CGFloat(pairingHeight), left: 0, bottom: 0, right: 0)
         } else if searchController.isActive {
             print("searchController.isActive")
-            return UIEdgeInsetsMake(CGFloat(pairingHeight), 0, 0, 0)
+            return UIEdgeInsets.init(top: CGFloat(pairingHeight), left: 0, bottom: 0, right: 0)
         } else if (self.pairingHidden?.isActive)! {
-            return UIEdgeInsetsMake(0, 0, 0, 0)
+            return UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
         } else {
             print("Default")
-            return UIEdgeInsetsMake(CGFloat(pairingHeight), 0, 0, 0)
+            return UIEdgeInsets.init(top: CGFloat(pairingHeight), left: 0, bottom: 0, right: 0)
         }
     }
     
