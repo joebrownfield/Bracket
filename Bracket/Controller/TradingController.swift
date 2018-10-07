@@ -120,8 +120,8 @@ class TradingController: UIViewController, UITextFieldDelegate {
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.tintColor = MainPageOptions().darkGreen
         segmentedControl.layer.cornerRadius = 5
-        segmentedControl.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.white], for: .selected)
-        segmentedControl.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: MainPageOptions().tabBarUnselected], for: .normal)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: MainPageOptions().tabBarUnselected], for: .normal)
         return segmentedControl
     }()
     
@@ -325,7 +325,7 @@ class TradingController: UIViewController, UITextFieldDelegate {
         self.buyBook.orderBookCollectionView.reloadData()
         
         if self.orderBooks.asks.count > 1 {
-            self.sellBook.orderBookCollectionView.scrollToItem(at: IndexPath(item: self.orderBooks.asks.count - 1, section: 0), at: UICollectionViewScrollPosition.bottom, animated: false)
+            self.sellBook.orderBookCollectionView.scrollToItem(at: IndexPath(item: self.orderBooks.asks.count - 1, section: 0), at: UICollectionView.ScrollPosition.bottom, animated: false)
         }
     }
     

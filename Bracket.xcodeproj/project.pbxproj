@@ -438,13 +438,16 @@
 				TargetAttributes = {
 					D8FF6E4820C0425A0091AD11 = {
 						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 1000;
 					};
 					D8FF6E5C20C0425B0091AD11 = {
 						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 1000;
 						TestTargetID = D8FF6E4820C0425A0091AD11;
 					};
 					D8FF6E6720C0425B0091AD11 = {
 						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 1000;
 						TestTargetID = D8FF6E4820C0425A0091AD11;
 					};
 				};
@@ -759,7 +762,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BDG.Bracket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -782,7 +785,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BDG.Bracket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -802,7 +805,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BDG.BracketTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bracket.app/Bracket";
 			};
@@ -823,7 +826,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BDG.BracketTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bracket.app/Bracket";
 			};
@@ -843,7 +846,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BDG.BracketUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Bracket;
 			};
@@ -863,7 +866,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BDG.BracketUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Bracket;
 			};

@@ -23,7 +23,7 @@ class PortfolioController: UICollectionViewController, UICollectionViewDelegateF
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
         button.setImage(UIImage(named: "Menu")?.withRenderingMode(.alwaysTemplate), for: [])
         button.setTitle("", for: [])
-        button.imageEdgeInsets = UIEdgeInsetsMake(3, 3, 3, 3)
+        button.imageEdgeInsets = UIEdgeInsets.init(top: 3, left: 3, bottom: 3, right: 3)
         button.imageView?.contentMode = .scaleAspectFit
         let titleColor = MainPageOptions().navigationTitleColor
         button.tintColor = titleColor
@@ -83,13 +83,13 @@ class PortfolioController: UICollectionViewController, UICollectionViewDelegateF
     private func addPullToRefresh() {
         let refreshControl = UIRefreshControl()
         let title = NSLocalizedString("Refreshing data..", comment: "Pull to refresh")
-        let attributes: [NSAttributedStringKey : UIColor]?
+        let attributes: [NSAttributedString.Key : UIColor]?
         if (BeastMode().nightMode) {
             refreshControl.tintColor = .white
-            attributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+            attributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         } else {
             refreshControl.tintColor = .black
-            attributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
+            attributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         }
         refreshControl.attributedTitle = NSAttributedString(string: title, attributes: attributes)
         refreshControl.bounds.origin.y = CGFloat(headerHeight * -1)
@@ -213,7 +213,7 @@ class PortfolioController: UICollectionViewController, UICollectionViewDelegateF
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsetsMake(CGFloat(headerHeight), 0, CGFloat(plusIconHeight), 0)
+        return UIEdgeInsets.init(top: CGFloat(headerHeight), left: 0, bottom: CGFloat(plusIconHeight), right: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -212,7 +212,7 @@ class WalletInfoTableController: UITableViewController, WalletTableCellDelegate 
         }
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
             switch indexPath.section {
             case 1:

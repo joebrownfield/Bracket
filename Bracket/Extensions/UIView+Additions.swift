@@ -43,7 +43,7 @@ extension UIView {
         effectView.tag = 5
         
         var activityIndicator = UIActivityIndicatorView()
-        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        activityIndicator = UIActivityIndicatorView(style: .white)
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
         activityIndicator.tag = 5
         activityIndicator.startAnimating()
